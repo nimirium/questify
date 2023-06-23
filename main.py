@@ -8,7 +8,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-
 @app.route('/questify', methods=['POST'])
 def questify():
     tasks = request.get_json()
