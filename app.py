@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from pydantic import ValidationError
 
+from models.task import Task
 from questify_gpt import questify_tasks
 
 app = Flask(__name__)
@@ -10,13 +12,19 @@ CORS(app, resources={
                     "http://questify-to-do.s3-website-us-east-1.amazonaws.com"]
     }
 })
-# CORS(app)
 
 
 @app.route('/questify', methods=['POST'])
 def questify():
-    tasks = request.get_json()
-    questify_task_data = [{k: v for k, v in task.items() if k in ['id', 'text', 'tags']} for task in tasks]
+    tasks_dicts = request.get_json()
+
+    questify_task_data = []
+    for task_dict in tasks_dicts:
+        try:
+            questify_task_data.append(Task(**task_dict))
+        except ValidationError as e:
+            return jsonify({"error": str(e)}), 400
+
     result = questify_tasks(questify_task_data)
     return jsonify(result)
 
