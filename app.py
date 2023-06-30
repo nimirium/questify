@@ -4,8 +4,13 @@ from flask_cors import CORS
 from questify_gpt import questify_tasks
 
 app = Flask(__name__)
-# CORS(app, resources={r"/questify": {"origins": "http://localhost:port"}})
-CORS(app)
+CORS(app, resources={
+    r"/questify": {
+        "origins": ["http://localhost:*", "https://questify-to-do.vercel.app",
+                    "http://questify-to-do.s3-website-us-east-1.amazonaws.com/"]
+    }
+})
+# CORS(app)
 
 
 @app.route('/questify', methods=['POST'])
