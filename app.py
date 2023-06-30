@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app, resources={
     r"/questify": {
         "origins": ["http://localhost:*", "https://questify-to-do.vercel.app",
-                    "http://questify-to-do.s3-website-us-east-1.amazonaws.com/"]
+                    "http://questify-to-do.s3-website-us-east-1.amazonaws.com"]
     }
 })
 # CORS(app)
