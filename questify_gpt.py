@@ -20,10 +20,10 @@ def questify_tasks(tasks: List[Task], context: Optional[ToDoContext] = None) -> 
                '{"questlineName": "...", "quests": {"[id]": {"originalTask": "...", "questName": "...", "questDescription": "..."}}}' \
                'where [id] is the id of the task.\n\n'
     if context:
-        prompt += f"By the way, the to-do list title is '{context.toDoListTitle}' - make the questlineName sound similar but quest-like. " \
+        prompt += f"By the way, the to-do list title is '{context.title}' - make the questlineName sound similar but quest-like. " \
                   f"You may also use the information from the title in the quests themselves." \
-                  f"The current time is {context.currentTime}. " \
-                  f"Do not include the exsct time in the quests, instead say morning / noon / afternoon / night, etc.\n"
+                  f"The current time is {context.time}. " \
+                  f"Do not include the exact time in your response, instead say morning / noon / afternoon / night, etc.\n"
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",
         messages=[{

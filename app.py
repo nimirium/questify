@@ -10,7 +10,7 @@ from questify_gpt import questify_tasks
 app = Flask(__name__)
 limiter = Limiter(app, default_limits=["30/minute;500/day"])
 CORS(app, resources={
-    r"/questify": {
+    r"/*": {
         "origins": ["http://localhost:*", "https://questify-to-do.vercel.app",
                     "http://questify-to-do.s3-website-us-east-1.amazonaws.com"]
     }

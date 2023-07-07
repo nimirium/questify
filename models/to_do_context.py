@@ -4,5 +4,5 @@ from pydantic import BaseModel
 
 
 class ToDoContext(BaseModel):
-    toDoListTitle: Optional[str]
-    currentTime: str
+    title: Optional[str]
+    time: str

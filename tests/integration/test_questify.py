@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 import pytest
 from flask.testing import FlaskClient
 
-from app import app
+from tests.fixtures.client import client
 
 
 class Quest(BaseModel):
@@ -22,13 +22,6 @@ class Quest(BaseModel):
 class ResponseModel(BaseModel):
     questlineName: str
     quests: Dict[str, Quest]
-
-
-@pytest.fixture
-def client() -> FlaskClient:
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
 
 
 def test_questify(client: FlaskClient) -> None:
@@ -62,8 +55,8 @@ def test_questify_v2_with_context(client: FlaskClient) -> None:
             "tags": []
         }],
         "context": {
-            "toDoListTitle": "Do these things before my baby wakes up",
-            "currentTime": "10:30 PM"
+            "title": "Do these things before my baby wakes up",
+            "time": "10:30 PM"
         }
     })
     assert response.status_code == 200
