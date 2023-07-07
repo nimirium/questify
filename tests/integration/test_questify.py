@@ -52,3 +52,23 @@ def test_questify_bad_request(client: FlaskClient) -> None:
     }])
     assert response.status_code == 400
     logging.info(response.get_json())
+
+
+def test_questify_v2_with_context(client: FlaskClient) -> None:
+    response = client.post('/v2/questify', json={
+        "tasks": [{
+            "id": "1",
+            "text": "Hang the laundry",
+            "tags": []
+        }],
+        "context": {
+            "toDoListTitle": "Do these things before my baby wakes up",
+            "currentTime": "10:30 PM"
+        }
+    })
+    assert response.status_code == 200
+    try:
+        ResponseModel(**response.get_json())
+        logging.info(response.get_json())
+    except ValidationError as e:
+        pytest.fail(f"Response structure did not match expected structure: {e}")
